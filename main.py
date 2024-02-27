@@ -5,16 +5,49 @@
 # >uvicorn main:app --reload
 
 # some ideas to improve
-# add shipping method as parameter
-# add table with risks
-# add variable parameter
-
-# ad info over changes between 2010 and 2020
-# publish thi on external website
+# todo add table with risks
+# todo ad info over changes between 2010 and 2020
+# todo publish this on external website
 from Data import *
 from fastapi import FastAPI
 
 app = FastAPI()
+
+# example of request with variable
+# http://127.0.0.1:8000/random/402?query_param=EXW
+@app.get('/random/{limit}')
+async def get_random(limit: int, query_param: str = None):
+    rn: int = limit
+    command: str = query_param
+    if command == 'EXW':
+        print(I_EXW)
+    else:
+        print("No value")
+    return{'limit' : rn, 'command': command}
+
+@app.get('/rand/{nr}')
+async def get_rand(nr: int, qu: str = None):
+    if qu == 'Intro':
+        inco: str = I_Intro
+    elif qu == 'EXW':
+        inco = I_EXW
+    elif qu == 'FCA':
+        inco = I_FCA
+    elif qu == 'CPT':
+        inco = I_CPT
+    elif qu == 'CIP':
+        inco = I_CIP
+    elif qu == 'DPU':
+        inco = I_DPU
+    elif qu == 'DAP':
+        inco = I_DAP
+    elif qu == 'DDP':
+        inco = I_DDP
+    else:
+        inco = "No valid value, use Intro/EXW/FCA/CPT/CIP/DPU/DAP/DDP instead"
+    return{'limit' : nr, 'command': qu, "Incoterm": inco}
+
+
 
 @app.get('/')
 async def root():
