@@ -15,6 +15,8 @@ app = FastAPI()
 
 # example of request with variable
 # http://127.0.0.1:8000/random/402?query_param=EXW
+
+
 @app.get('/random/{limit}')
 async def get_random(limit: int, query_param: str = None):
     rn: int = limit
